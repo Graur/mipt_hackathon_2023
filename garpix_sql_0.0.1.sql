@@ -1,0 +1,206 @@
+CREATE TABLE data ( 
+	calculation_id       INTEGER NOT NULL  PRIMARY KEY  ,
+	settings_rank        BOOLEAN     ,
+	settings_max_step    INTEGER     ,
+	settings_min_step    INTEGER     ,
+	settings_usersort    BOOLEAN     ,
+	settings_hardlimit   INTEGER     ,
+	settings_timelimit   INTEGER     ,
+	settings_step_scaling INTEGER     
+ );
+
+CREATE TABLE data_cargo_space ( 
+	id                   INTEGER NOT NULL    ,
+	info_uid             VARCHAR(64)     ,
+	info_sort            INTEGER     ,
+	info_title           VARCHAR(128)     ,
+	info_margin_width    INTEGER     ,
+	info_margin_height   INTEGER     ,
+	info_margin_length   INTEGER     ,
+	mass                 REAL     ,
+	size_width           INTEGER     ,
+	size_height          INTEGER     ,
+	size_length          INTEGER     ,
+	"type"               VARCHAR(128)     ,
+	axles                VARCHAR(128)     ,
+	title                VARCHAR(128)     ,
+	margin_width         INTEGER     ,
+	margin_height        INTEGER     ,
+	margin_length        INTEGER     ,
+	hardlimit            INTEGER     ,
+	timelimit            INTEGER     ,
+	indentation_width    INTEGER     ,
+	indentation_height   INTEGER     ,
+	indentation_length   INTEGER     ,
+	loading_size_width   INTEGER     ,
+	loading_size_height  INTEGER     ,
+	loading_size_length  INTEGER     ,
+	carrying_capacity    INTEGER     ,
+	indentation_height_top INTEGER     ,
+	indentation_length_end INTEGER     ,
+	indentation_width_right INTEGER     ,
+	calculation_id       INTEGER     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data( calculation_id )  
+ );
+
+CREATE TABLE data_cargoes ( 
+	calculation_id       INTEGER     ,
+	cargo_id             VARCHAR(128) NOT NULL  PRIMARY KEY  ,
+	info_color           VARCHAR(32)     ,
+	info_title           VARCHAR(32)     ,
+	info_article         VARCHAR(64)     ,
+	info_group_id        VARCHAR(128)     ,
+	info_group_title     VARCHAR(256)     ,
+	mass                 REAL     ,
+	size_width           INTEGER     ,
+	size_height          INTEGER     ,
+	size_length          INTEGER     ,
+	sort                 INTEGER     ,
+	"type"               VARCHAR(128)     ,
+	count                INTEGER     ,
+	margin_width         INTEGER     ,
+	margin_height        INTEGER     ,
+	margin_length        INTEGER     ,
+	stacking             BOOLEAN     ,
+	turnover             BOOLEAN     ,
+	stacking_limit       INTEGER     ,
+	prepare_last_result  VARCHAR(128)     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data( calculation_id )  
+ );
+
+CREATE TABLE data_result ( 
+	calculation_id       INTEGER NOT NULL  PRIMARY KEY  ,
+	version              INTEGER     ,
+	packing_type         VARCHAR(128)     ,
+	is_packed_same_boxes BOOLEAN     
+ );
+
+CREATE TABLE data_result_boxes ( 
+	id                   INTEGER NOT NULL    ,
+	info_color           VARCHAR(32)     ,
+	info_title           VARCHAR(128)     ,
+	info_article         VARCHAR(64)     ,
+	info_group_id        VARCHAR(128)     ,
+	info_group_title     VARCHAR(256)     ,
+	mass                 REAL     ,
+	size_width           REAL     ,
+	size_height          REAL     ,
+	size_length          REAL     ,
+	sort                 INTEGER     ,
+	"type"               VARCHAR(128)     ,
+	margin_width         REAL     ,
+	margin_height        REAL     ,
+	margin_length        REAL     ,
+	cargo_id             VARCHAR(256)     ,
+	position_x           REAL     ,
+	position_y           REAL     ,
+	position_z           REAL     ,
+	stacking             BOOLEAN     ,
+	turnover             BOOLEAN     ,
+	rotation_state       INTEGER     ,
+	stacking_limit       REAL     ,
+	calculated_size_width REAL     ,
+	calculated_size_height REAL     ,
+	calculated_size_length REAL     ,
+	virtual_positions    VARCHAR(256)     ,
+	calculation_id       INTEGER     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data_result( calculation_id )  
+ );
+
+CREATE TABLE data_result_cargo_groups ( 
+	calculation_id       INTEGER     ,
+	cargo_id             VARCHAR(128) NOT NULL  PRIMARY KEY  ,
+	info_color           VARCHAR(32)     ,
+	info_title           VARCHAR(32)     ,
+	info_article         VARCHAR(64)     ,
+	info_group_id        VARCHAR(128)     ,
+	info_group_title     VARCHAR(256)     ,
+	mass                 REAL     ,
+	size_width           REAL     ,
+	size_height          REAL     ,
+	size_length          REAL     ,
+	sort                 INTEGER     ,
+	"type"               VARCHAR(128)     ,
+	count                INTEGER     ,
+	margin_width         REAL     ,
+	margin_height        REAL     ,
+	margin_length        REAL     ,
+	stacking             BOOLEAN     ,
+	turnover             BOOLEAN     ,
+	stacking_limit       REAL     ,
+	prepare_last_result  VARCHAR(256)     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data_result( calculation_id )  
+ );
+
+CREATE TABLE data_result_cargo_space ( 
+	id                   INTEGER NOT NULL    ,
+	info_uid             VARCHAR(64)     ,
+	info_sort            INTEGER     ,
+	info_title           VARCHAR(128)     ,
+	info_margin_width    INTEGER     ,
+	info_margin_height   INTEGER     ,
+	info_margin_length   INTEGER     ,
+	mass                 REAL     ,
+	size_width           REAL     ,
+	size_height          REAL     ,
+	size_length          REAL     ,
+	"type"               VARCHAR(128)     ,
+	indentation_width    REAL     ,
+	indentation_height   REAL     ,
+	indentation_length   REAL     ,
+	loading_size_width   REAL     ,
+	loading_size_height  REAL     ,
+	loading_size_length  REAL     ,
+	carrying_capacity    REAL     ,
+	calculation_id       INTEGER     ,
+	calculation_info_step_count INTEGER     ,
+	calculation_info_cargos_mass REAL     ,
+	calculation_info_load_volume REAL     ,
+	calculation_info_cargos_volume REAL     ,
+	calculation_info_load_capacity REAL     ,
+	calculation_info_loading_height REAL     ,
+	calculation_info_density_percent REAL     ,
+	calculation_info_remaining_volume REAL     ,
+	calculation_info_void_space_percent REAL     ,
+	calculation_info_filling_space_percent REAL     ,
+	real_center_of_gravity_width REAL     ,
+	real_center_of_gravity_height REAL     ,
+	real_center_of_gravity_length REAL     ,
+	ideal_center_of_gravity_width REAL     ,
+	ideal_center_of_gravity_height REAL     ,
+	ideal_center_of_gravity_length REAL     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data_result( calculation_id )  
+ );
+
+CREATE TABLE data_result_invalid_errors_boxes ( 
+	id                   VARCHAR(128) NOT NULL    ,
+	info_color           VARCHAR(32)     ,
+	info_title           VARCHAR(128)     ,
+	info_article         VARCHAR(128)     ,
+	info_group_id        VARCHAR(128)     ,
+	info_group_title     VARCHAR(256)     ,
+	calculation_id       INTEGER     ,
+	name                 VARCHAR(128)     ,
+	key                  INTEGER     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data_result( calculation_id )  
+ );
+
+CREATE TABLE data_result_unpacked_errors_boxes ( 
+	id                   VARCHAR(128) NOT NULL    ,
+	info_color           VARCHAR(32)     ,
+	info_title           VARCHAR(128)     ,
+	info_article         VARCHAR(128)     ,
+	info_group_id        VARCHAR(128)     ,
+	info_group_title     VARCHAR(256)     ,
+	calculation_id       INTEGER     ,
+	name                 VARCHAR(128)     ,
+	key                  INTEGER     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data_result( calculation_id )  
+ );
+
+CREATE TABLE data_result_validate_errors ( 
+	calculation_id       INTEGER     ,
+	error_name           VARCHAR(100)     ,
+	FOREIGN KEY ( calculation_id ) REFERENCES data_result( calculation_id )  
+ );
+
